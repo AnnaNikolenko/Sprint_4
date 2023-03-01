@@ -1,0 +1,33 @@
+import pytest
+import allure
+from pages.main_page import MainPage
+from pages.main_page import LOCATOR_HOW_MUCH_DOES_IT_COST, LOCATOR_I_WANT_A_COUPLE_OF_SCOOTERS, \
+    LOCATOR_HOW_RENT_TIME_IS_CALCULATED, LOCATOR_CAN_I_ORDER_SCOOTER_TODAY, LOCATOR_CAN_I_EXTEND_ORDER, \
+    LOCATOR_DO_YOU_BRING_CHARGING, LOCATOR_CAN_I_CANCEL_ORDER, LOCATOR_I_LIVE_FAR_WILL_YOU_BRING, LOCATOR_ANSWER_ABOUT_COST, \
+    LOCATOR_ANSWER_ABOUT_A_COUPLE_OF_SCOOTERS, LOCATOR_ANSWER_HOW_RENT_TIME_IS_CALCULATED, \
+    LOCATOR_ANSWER_ABOUT_ORDER_SCOOTER_TODAY, LOCATOR_ANSWER_ABOUT_EXTEND_ORDER, LOCATOR_ANSWER_ABOUT_CHARGING, LOCATOR_ANSWER_ABOUT_CANCEL_ORDER, \
+    LOCATOR_ANSWER_I_LIVE_FAR_WILL_YOU_BRING
+
+
+@allure.title("Проверка блока Вопросы - Ответы")
+@pytest.mark.parametrize(
+    'question, answer',
+    [
+        [LOCATOR_HOW_MUCH_DOES_IT_COST, LOCATOR_ANSWER_ABOUT_COST],
+        [LOCATOR_I_WANT_A_COUPLE_OF_SCOOTERS, LOCATOR_ANSWER_ABOUT_A_COUPLE_OF_SCOOTERS],
+        [LOCATOR_HOW_RENT_TIME_IS_CALCULATED, LOCATOR_ANSWER_HOW_RENT_TIME_IS_CALCULATED],
+        [LOCATOR_CAN_I_ORDER_SCOOTER_TODAY, LOCATOR_ANSWER_ABOUT_ORDER_SCOOTER_TODAY],
+        [LOCATOR_CAN_I_EXTEND_ORDER, LOCATOR_ANSWER_ABOUT_EXTEND_ORDER],
+        [LOCATOR_DO_YOU_BRING_CHARGING, LOCATOR_ANSWER_ABOUT_CHARGING],
+        [LOCATOR_CAN_I_CANCEL_ORDER, LOCATOR_ANSWER_ABOUT_CANCEL_ORDER],
+        [LOCATOR_I_LIVE_FAR_WILL_YOU_BRING, LOCATOR_ANSWER_I_LIVE_FAR_WILL_YOU_BRING]
+    ]
+)
+def test_click_questions_and_check_answers(browser, question, answer):
+    main_page = MainPage(browser)
+    main_page.go_to_site()
+    main_page.accept_cookies()
+    browser.execute_script("window.scrollBy(0, 4000);")
+    main_page.find_element(question).click()
+    # проверка, что после клика по вопросу отображается необходимый текст
+    assert main_page.find_element(answer)
